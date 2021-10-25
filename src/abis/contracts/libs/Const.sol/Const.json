@@ -1,0 +1,141 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Const",
+  "sourceName": "contracts/libs/Const.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "ADMIN",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "AUTOCOMPOUND_ROLE",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BASE_DECIMALS",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BONE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "BPOW_PRECISION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "DOUBLE_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_BPOW_BASE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MIN_BPOW_BASE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "SINGLE_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "TRIPLE_REWARD",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b5061023a806100206000396000f3fe608060405234801561001057600080fd5b506004361061009e5760003560e01c80638b09578d116100665780638b09578d1461012e578063ba019dab14610136578063bc694ea21461013e578063bf8c003c14610146578063c36596a61461014e57600080fd5b806313cf2053146100a3578063189d00ca146100dd5780632a0acc6a146100e55780633503b4c21461010c578063386c314c14610126575b600080fd5b6100ca7f677802f486287dfa90fdc0c0ee8933b92451fa57e2c578b56e609f8517404f1181565b6040519081526020015b60405180910390f35b6100ca61015d565b6100ca7fdf8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec4281565b610114600381565b60405160ff90911681526020016100d4565b610114600281565b610114601281565b6100ca600181565b6100ca610177565b610114600181565b6100ca670de0b6b3a764000081565b6101746402540be400670de0b6b3a7640000610196565b81565b600161018c670de0b6b3a764000060026101b8565b61017491906101d7565b6000826101b357634e487b7160e01b600052601260045260246000fd5b500490565b60008160001904831182151516156101d2576101d26101ee565b500290565b6000828210156101e9576101e96101ee565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220fdf509e6e950701c1fbe6255fc790f87fe4f070d37cbb52d59c87bf3ef3df69764736f6c63430008060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061009e5760003560e01c80638b09578d116100665780638b09578d1461012e578063ba019dab14610136578063bc694ea21461013e578063bf8c003c14610146578063c36596a61461014e57600080fd5b806313cf2053146100a3578063189d00ca146100dd5780632a0acc6a146100e55780633503b4c21461010c578063386c314c14610126575b600080fd5b6100ca7f677802f486287dfa90fdc0c0ee8933b92451fa57e2c578b56e609f8517404f1181565b6040519081526020015b60405180910390f35b6100ca61015d565b6100ca7fdf8b4c520ffe197c5343c6f5aec59570151ef9a492f2c624fd45ddde6135ec4281565b610114600381565b60405160ff90911681526020016100d4565b610114600281565b610114601281565b6100ca600181565b6100ca610177565b610114600181565b6100ca670de0b6b3a764000081565b6101746402540be400670de0b6b3a7640000610196565b81565b600161018c670de0b6b3a764000060026101b8565b61017491906101d7565b6000826101b357634e487b7160e01b600052601260045260246000fd5b500490565b60008160001904831182151516156101d2576101d26101ee565b500290565b6000828210156101e9576101e96101ee565b500390565b634e487b7160e01b600052601160045260246000fdfea2646970667358221220fdf509e6e950701c1fbe6255fc790f87fe4f070d37cbb52d59c87bf3ef3df69764736f6c63430008060033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
