@@ -7,12 +7,14 @@
             <b-tab title="Zap" active>
               <b-row>
                 <b-col md="9">
+                  Amount
                   <b-form-input
                     v-model="amount"
                     placeholder="Amount"
                   ></b-form-input>
                 </b-col>
                 <b-col md="3">
+                  Token
                   <b-row>
                     <b-form-select
                       class="form-control"
@@ -25,12 +27,14 @@
               <br />
               <b-row>
                 <b-col md="9">
+                  ET Amount
                   <b-form-input
                     v-model="returnValue"
                     placeholder="LP Amount"
                   ></b-form-input>
                 </b-col>
                 <b-col md="3">
+                  LP pair
                   <b-row>
                     <b-form-select
                       class="form-control"
@@ -101,16 +105,16 @@ export default {
     options: () => {
       return tokens.map((e) => {
         return {
-          value: e,
-          text: `token ${e}`,
+          value: e.value,
+          text: `Token ${e.label}`,
         };
       });
     },
     pairOptions: () => {
       return pairs.map((e) => {
         return {
-          value: e,
-          text: `pair ${e}`,
+          value: e.value,
+          text: `Pair ${e.label}`,
         };
       });
     },
@@ -158,7 +162,7 @@ export default {
 
       const nonce = await getNonce();
       console.log("Nonce: ", nonce);
-      // await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
+      await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
       await stakingRewardContract.connect(signer).stake(ethers.utils.parseEther(this.stakeAmount), {
         nonce
       });
