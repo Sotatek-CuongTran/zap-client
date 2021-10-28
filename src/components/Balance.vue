@@ -1,18 +1,16 @@
 <template>
   <div>
-    <b-alert show>Your token0 balance is: {{ balance0 }}</b-alert>
-    <b-alert show>Your token1 balance is: {{ balance1 }}</b-alert>
-    <b-alert show>Your token2 balance is: {{ balance2 }}</b-alert>
-    <b-alert show>Your token3 balance is: {{ balance3 }}</b-alert>
-    <b-alert show>Your token4 balance is: {{ balance4 }}</b-alert>
-    <b-alert show>Your farmingPool01 LP is: {{ farmingPoolLP }}</b-alert>
-    <b-alert show>Your pair01LP LP is: {{ pair01LP }}</b-alert>
+    <b-alert show>Your USDT balance is: {{ balance0 }}</b-alert>
+    <b-alert show>Your DAI balance is: {{ balance1 }}</b-alert>
+    <b-alert show>Your WETH balance is: {{ balance2 }}</b-alert>
+    <b-alert show>Your WMATIC balance is: {{ balance3 }}</b-alert>
+    <b-alert show>Your ATOM balance is: {{ balance4 }}</b-alert>
+    <b-alert show>Your USDT-DAI LP is: {{ pair01LP }}</b-alert>
   </div>
 </template>
 
 <script>
 import { getBalance, signer } from "../services/rpc-service.js";
-import { ethers } from "ethers";
 
 export default {
   name: "Balance",
@@ -27,52 +25,27 @@ export default {
       balance3: 0,
       balance4: 0,
       farmingPoolLP: 0,
-      pair01LP: 0
+      pair01LP: 0,
     };
   },
   mounted() {
     const init = async () => {
-      const balance0 = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_TOKEN0
-      );
-      this.balance0 = ethers.utils.formatEther(balance0.toString());
-
-      const balance1 = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_TOKEN1
-      );
-      this.balance1 = ethers.utils.formatEther(balance1.toString());
-
-      const balance2 = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_TOKEN2
-      );
-      this.balance2 = ethers.utils.formatEther(balance2.toString());
-
-      const balance3 = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_TOKEN3
-      );
-      this.balance3 = ethers.utils.formatEther(balance3.toString());
-      
-      const balance4 = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_TOKEN4
-      );
-      this.balance4 = ethers.utils.formatEther(balance4.toString());
-
-      const farmingPoolLP = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_FARMING_POOL01
-      );
-      this.farmingPoolLP = ethers.utils.formatEther(farmingPoolLP.toString());
-
-      const pair01LP = await getBalance(
-        await signer.getAddress(),
-        process.env.VUE_APP_PAIR01
-      );
-      this.pair01LP = ethers.utils.formatEther(pair01LP.toString());
+      [
+        this.balance0,
+        this.balance1,
+        this.balance2,
+        this.balance3,
+        this.balance4,
+        this.pair01LP,
+      ] = await Promise.all([
+        getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN0),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN1),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN2),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN3),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN4),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_PAIR01),
+      ]);
+      console.log("\x1b[36m%s\x1b[0m", "this.pair01LP", this.pair01LP);
     };
     init();
   },

@@ -12,12 +12,19 @@ export const signer = provider.getSigner();
 console.log({ signer: signer.getAddress() });
 
 export const getBalance = async (address, tokenAddress) => {
-  console.log({
-    address,
-    tokenAddress,
-  });
   const tokenContract = new ethers.Contract(tokenAddress, IERC20.abi, provider);
-  return tokenContract.callStatic.balanceOf(address);
+  const decimal = await tokenContract.callStatic.decimals();
+  const balance = await tokenContract.callStatic.balanceOf(address);
+  return ethers.utils.formatUnits(ethers.BigNumber.from(balance), decimal.toString());
+};
+
+export const getAllowance = async (address, tokenAddress) => {
+  const tokenContract = new ethers.Contract(tokenAddress, IERC20.abi, provider);
+  return tokenContract.callStatic.allowance(await signer.getAddress(), address);
+};
+
+export const getERC20Contract = async (tokenAddress) => {
+  return new ethers.Contract(tokenAddress, IERC20.abi, provider);
 };
 
 export const getContract = async (address, abi) => {

@@ -86,6 +86,8 @@ import {
   getZapContract,
   signer,
   getNonce,
+  getAllowance,
+  getERC20Contract,
 } from "./services/rpc-service";
 export default {
   name: "App",
@@ -99,29 +101,20 @@ export default {
       amount: 0,
       selectedPair: null,
       stakeAmount: 0,
-    };
-  },
-  computed: {
-    options: () => {
-      return tokens.map((e) => {
+      options: tokens.map((e) => {
         return {
           value: e.value,
           text: `Token ${e.label}`,
         };
-      });
-    },
-    pairOptions: () => {
-      return pairs.map((e) => {
+      }),
+      pairOptions: pairs.map((e) => {
         return {
           value: e.value,
           text: `Pair ${e.label}`,
         };
-      });
-    },
-    returnValue: function () {
-      return 0;
-      // return calLPOut(this.amount, tokenIn, pairAddress);
-    },
+      }),
+      returnValue: 0,
+    };
   },
   methods: {
     zap: async function () {
@@ -129,12 +122,21 @@ export default {
       console.log(this.selectedPair);
       console.log(this.amount);
       const zapContract = await getZapContract();
-      
+
       const nonce = await getNonce();
       console.log("Nonce: ", nonce);
-      await approveTokenForSpender(zapContract.address, this.selected); // fixed for pair01
+      let allowance = await getAllowance(zapContract.address, this.selected);
+      allowance = Number(ethers.utils.formatEther(allowance.toString()));
+      console.log("allowance: ", allowance);
+      if (allowance <= 0) {
+        await approveTokenForSpender(zapContract.address, this.selected); // fixed for pair01
+      }
 
-      // await approveToken();
+      const selectedContract = await getERC20Contract(this.selected);
+      const decimal = await selectedContract.callStatic.decimals();
+      console.log(decimal);
+      console.log(ethers.utils.parseUnits(this.amount.toString(), decimal.toString()));
+
       // await signer.sendTransaction({
       //   from: await signer.getAddress(),
       //   to: "0xf18C30E1a1706276Cdc2703c14315b924AC79B78",
@@ -146,7 +148,7 @@ export default {
         .connect(signer)
         .zapInTokenV2(
           this.selected,
-          ethers.utils.parseEther(this.amount),
+          ethers.utils.parseUnits(this.amount, decimal),
           this.selectedPair,
           await signer.getAddress()
         );
@@ -163,9 +165,11 @@ export default {
       const nonce = await getNonce();
       console.log("Nonce: ", nonce);
       await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
-      await stakingRewardContract.connect(signer).stake(ethers.utils.parseEther(this.stakeAmount), {
-        nonce
-      });
+      await stakingRewardContract
+        .connect(signer)
+        .stake(ethers.utils.parseEther(this.stakeAmount), {
+          nonce,
+        });
     },
   },
 };
