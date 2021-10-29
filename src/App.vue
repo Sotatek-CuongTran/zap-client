@@ -97,7 +97,7 @@
             ></b-form-input>
           </b-col>
           <b-col md="6">
-            LP pair
+            Farms
             <b-row>
               <b-form-select
               class="form-control"
@@ -176,6 +176,7 @@ export default {
 
     farmSelected() {
       // console.log(this.farmSelected)
+      this.getLPBalance(this.farmSelected)
     }
   },
   mounted() {
@@ -270,9 +271,11 @@ export default {
       this.getLPBalance()
     },
 
-    async getLPBalance() {
+    async getLPBalance(farmToken = null) {
+      let pair = farmToken || this.selectedPair;
+
       [ this.pair01LP ] = await Promise.all([
-        getBalance(await signer.getAddress(), selectedPair),
+        getBalance(await signer.getAddress(), pair),
       ]);
     }
   },
