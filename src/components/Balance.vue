@@ -14,6 +14,7 @@
 <script>
 import { getBalance, signer } from "../services/rpc-service.js";
 
+
 export default {
   name: "Balance",
   data: () => {

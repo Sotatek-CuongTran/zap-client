@@ -24,15 +24,12 @@
                   </b-row>
                 </b-col>
               </b-row>
-    
+
               <br />
               <b-row>
                 <b-col md="6">
                   ET Amount
-                  <b-form-input
-                    v-model="returnValue"
-                    readonly
-                  ></b-form-input>
+                  <b-form-input v-model="returnValue" readonly></b-form-input>
                 </b-col>
                 <b-col md="6">
                   LP pair
@@ -46,23 +43,25 @@
                 </b-col>
               </b-row>
 
-              <br>
-               <b-row>
-                <div style="display: flex; align-items: center;">
-                  <span>Want to farm: </span> 
-                <input type="checkbox" v-model="wishFarm">
+              <br />
+              <b-row>
+                <div style="display: flex; align-items: center">
+                  <span>Want to farm: </span>
+                  <input type="checkbox" v-model="wishFarm" />
                 </div>
               </b-row>
 
               <br />
               <b-row>
                 <b-col>
-                  <b-button @click="zap" style="margin-right: 20px;">Zap</b-button>
+                  <b-button @click="zap" style="margin-right: 20px"
+                    >Zap</b-button
+                  >
                   <!-- <b-button @click="showModal">Select Farm</b-button> -->
                 </b-col>
               </b-row>
             </b-tab>
-            
+
             <!-- <b-tab title="Farm">
               <b-row>
                 <b-form-input
@@ -77,7 +76,6 @@
                 </b-col>
               </b-row>
             </b-tab> -->
-
           </b-tabs>
         </b-card>
       </b-col>
@@ -89,21 +87,20 @@
     <div>
       <b-modal v-model="modalShow" @ok="farm">
         <p>USDT-DAI LP: {{ pair01LP }}</p>
-         <b-row>
+        <b-row>
           <b-col md="6">
             Amount
-            <b-form-input
-              v-model="stakeAmount"
-            ></b-form-input>
+            <b-form-input v-model="stakeAmount"></b-form-input>
           </b-col>
           <b-col md="6">
             Farms
             <b-row>
               <b-form-select
-              class="form-control"
-              v-model="farmSelected"
-              :options="farms">
-            </b-form-select>
+                class="form-control"
+                v-model="farmSelected"
+                :options="farms"
+              >
+              </b-form-select>
             </b-row>
           </b-col>
         </b-row>
@@ -125,10 +122,10 @@ import {
   getNonce,
   getAllowance,
   getERC20Contract,
-  getBalance
+  getBalance,
 } from "./services/rpc-service";
-import JSON_TOKENS from '../data/token.json';
-import FARM from '../data/farm.json';
+import JSON_TOKENS from "../data/token.json";
+import FARM from "../data/farm.json";
 
 export default {
   name: "App",
@@ -155,10 +152,10 @@ export default {
       //     text: `Pair ${e.label}`,
       //   };
       // }),
-      returnValue: '',
+      returnValue: "",
       modalShow: false,
-      farms: Object.keys(FARM).map(i => {
-        return { text: i, value: FARM[i] }
+      farms: Object.keys(FARM).map((i) => {
+        return { text: i, value: FARM[i] };
       }),
       farmSelected: null,
       pair01LP: 0,
@@ -167,7 +164,7 @@ export default {
   },
   watch: {
     selected() {
-      this.initLPPair(this.selected)
+      this.initLPPair(this.selected);
     },
 
     selectedPair() {
@@ -176,27 +173,30 @@ export default {
 
     farmSelected() {
       // console.log(this.farmSelected)
-      this.getLPBalance(this.farmSelected)
-    }
+      this.getLPBalance(this.farmSelected);
+    },
   },
   mounted() {
-    console.log('FARM ', FARM)
+    console.log("FARM ", FARM);
   },
   methods: {
     initLPPair(selectedToken) {
-      let tokenPair = Object.values(JSON_TOKENS).filter(token => {
-        return token.address === selectedToken
-      })
+      let tokenPair = Object.values(JSON_TOKENS).filter((token) => {
+        return token.address === selectedToken;
+      });
       if (tokenPair && tokenPair.length) {
-
-        let lps = pairs.filter(pair => tokenPair[0].lp.includes(pair.label) || tokenPair[0].lp.includes(pair.re_label))
+        let lps = pairs.filter(
+          (pair) =>
+            tokenPair[0].lp.includes(pair.label) ||
+            tokenPair[0].lp.includes(pair.re_label)
+        );
 
         this.pairOptions = lps.map((e) => {
           return {
             value: e.value,
             text: `Pair ${e.label}`,
           };
-        })
+        });
       }
     },
 
@@ -218,7 +218,9 @@ export default {
       const selectedContract = await getERC20Contract(this.selected);
       const decimal = await selectedContract.callStatic.decimals();
       console.log(decimal);
-      console.log(ethers.utils.parseUnits(this.amount.toString(), decimal.toString()));
+      console.log(
+        ethers.utils.parseUnits(this.amount.toString(), decimal.toString())
+      );
 
       // await signer.sendTransaction({
       //   from: await signer.getAddress(),
@@ -236,15 +238,11 @@ export default {
           await signer.getAddress()
         );
 
+      await tx.wait();
 
-        await tx.wait()
-
-        if (this.wishFarm) {
-          this.showModal()
-        }
-        
-
-        
+      if (this.wishFarm) {
+        this.showModal();
+      }
     },
     farm: async function () {
       console.log(this.stakeAmount);
@@ -258,7 +256,18 @@ export default {
       const nonce = await getNonce();
       console.log("Nonce: ", nonce);
       // await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
-      await approveTokenForSpender(stakingRewardContract.address, this.selectedPair); // fixed for pair01
+      let allowance = await getAllowance(
+        stakingRewardContract.address,
+        this.selectedPair
+      );
+      allowance = Number(ethers.utils.formatEther(allowance.toString()));
+      console.log("allowance: ", allowance);
+      if (allowance <= 0) {
+        await approveTokenForSpender(
+          stakingRewardContract.address,
+          this.selectedPair
+        ); // fixed for pair01
+      }
       await stakingRewardContract
         .connect(signer)
         .stake(ethers.utils.parseEther(this.stakeAmount), {
@@ -267,17 +276,17 @@ export default {
     },
 
     showModal() {
-      this.modalShow = !this.modalShow
-      this.getLPBalance()
+      this.modalShow = !this.modalShow;
+      this.getLPBalance();
     },
 
     async getLPBalance(farmToken = null) {
       let pair = farmToken || this.selectedPair;
 
-      [ this.pair01LP ] = await Promise.all([
+      [this.pair01LP] = await Promise.all([
         getBalance(await signer.getAddress(), pair),
       ]);
-    }
+    },
   },
 };
 </script>
