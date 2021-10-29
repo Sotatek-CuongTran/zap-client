@@ -28,7 +28,7 @@ export const pairs = [
   { label: 'USDT-WETH', re_label: 'WETH-USDT', value: process.env.VUE_APP_PAIR02 },
   { label: 'WETH-WMATIC', re_label: 'WMATIC-WETH', value: process.env.VUE_APP_PAIR23 },
   { label: 'DAI-WMATIC', re_label: 'WMATIC-DAI', value: process.env.VUE_APP_PAIR13 },
-  { label: 'USDT-WMATIC', re_label: 'WMATIC-USDT', value: process.env.VUE_APP_PAIR04 },
-  { label: 'DAI-WETH', re_label: 'WETH-DAI', value: process.env.VUE_APP_PAIR14 },
-  { label: 'ATOM-WETH', re_label: 'WETH-ATOM', value: '' },
+  { label: 'USDT-WMATIC', re_label: 'WMATIC-USDT', value: process.env.VUE_APP_PAIR03 },
+  { label: 'DAI-WETH', re_label: 'WETH-DAI', value: process.env.VUE_APP_PAIR12 },
+  { label: 'ATOM-WETH', re_label: 'WETH-ATOM', value: process.env.VUE_APP_PAIR24 },
 ]

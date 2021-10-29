@@ -16,9 +16,6 @@ import { getBalance, signer } from "../services/rpc-service.js";
 
 export default {
   name: "Balance",
-  props: {
-    msg: String,
-  },
   data: () => {
     return {
       balance0: 0,
