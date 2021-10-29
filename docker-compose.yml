@@ -1,0 +1,20 @@
+version: "3"
+services:
+    nginx:
+        container_name: matrix_nginx
+        depends_on:
+            - dockerhost
+        image: nginx:alpine
+        restart: always
+        env_file:
+          - .env.development
+        volumes:
+            - ${NGINX}
+            - ./tmp/:/tmp/
+        ports:
+            - 80:80
+    dockerhost:
+        container_name: matrix_host
+        image: qoomon/docker-host
+        cap_add: ["NET_ADMIN", "NET_RAW"]
+        restart: always
