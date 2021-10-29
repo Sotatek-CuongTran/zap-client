@@ -272,7 +272,7 @@ export default {
 
     async getLPBalance() {
       [ this.pair01LP ] = await Promise.all([
-        getBalance(await signer.getAddress(), process.env.VUE_APP_PAIR01),
+        getBalance(await signer.getAddress(), selectedPair),
       ]);
     }
   },
