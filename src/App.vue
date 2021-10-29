@@ -58,7 +58,7 @@
               <b-row>
                 <b-col>
                   <b-button @click="zap" style="margin-right: 20px;">Zap</b-button>
-                  <b-button @click="showModal">Select Farm</b-button>
+                  <!-- <b-button @click="showModal">Select Farm</b-button> -->
                 </b-col>
               </b-row>
             </b-tab>

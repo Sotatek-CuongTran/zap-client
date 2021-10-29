@@ -36,7 +36,6 @@ export default {
         this.balance3,
         this.balance4,
         this.pair01LP,
-        this.farmingPoolLP,
       ] = await Promise.all([
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN0),
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN1),
@@ -44,7 +43,6 @@ export default {
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN3),
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN4),
         getBalance(await signer.getAddress(), process.env.VUE_APP_PAIR01),
-        getBalance(await signer.getAddress(), process.env.VUE_APP_FARMING_POOL01),
       ]);
       console.log("\x1b[36m%s\x1b[0m", "this.pair01LP", this.pair01LP);
     };
