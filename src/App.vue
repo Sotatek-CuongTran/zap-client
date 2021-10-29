@@ -87,6 +87,7 @@
     <div>
       <b-modal v-model="modalShow" @ok="farm">
         <!-- <p>USDT-DAI LP: {{ pair01LP }}</p> -->
+        <p v-if="farmSelected">{{ farmName }}: {{ farmBalance }}</p>
         <b-row>
           <b-col md="6">
             Amount
@@ -158,9 +159,17 @@ export default {
         return { text: i, value: FARM[i] };
       }),
       farmSelected: null,
-      pair01LP: 0,
+      farmBalance: 0,
       wishFarm: false,
     };
+  },
+  computed: {
+    farmName() {
+      if (!this.farmSelected) return
+
+      let farm = this.farms.filter(i => i.value === this.farmSelected)
+      return farm && farm.length ? farm[0].text : ''
+    }
   },
   watch: {
     selected() {
@@ -279,15 +288,15 @@ export default {
       // this.getLPBalance();
     },
 
-    // async getLPBalance(farmToken = null) {
-    //   let pair = farmToken || this.selectedPair;
+    async getLPBalance(farmToken = null) {
+      let pair = farmToken || this.selectedPair;
 
-    //   console.log(pair)
+      console.log(pair)
 
-    //   // [this.pair01LP] = await Promise.all([
-    //   //   getBalance(await signer.getAddress(), pair),
-    //   // ]);
-    // },
+      [this.farmBalance] = await Promise.all([
+        getBalance(await signer.getAddress(), pair),
+      ]);
+    },
   },
 };
 </script>
