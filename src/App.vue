@@ -57,7 +57,7 @@
                   <b-button @click="zap" style="margin-right: 20px"
                     >Zap</b-button
                   >
-                  <!-- <b-button @click="showModal">Select Farm</b-button> -->
+                  <b-button @click="showModal">Select Farm</b-button>
                 </b-col>
               </b-row>
             </b-tab>
@@ -86,7 +86,7 @@
 
     <div>
       <b-modal v-model="modalShow" @ok="farm">
-        <!-- <p>USDT-DAI LP: {{ pair01LP }}</p> -->
+        <p>{{ lpName }} LP: {{ lpBalance }}</p>
         <b-row>
           <b-col md="6">
             Amount
@@ -158,8 +158,9 @@ export default {
         return { text: i, value: FARM[i] };
       }),
       farmSelected: null,
-      farmBalance: 0,
       wishFarm: false,
+      lpBalance: 0,
+      lpName: '',
     };
   },
   watch: {
@@ -167,12 +168,23 @@ export default {
       this.initLPPair(this.selected);
     },
 
-    selectedPair() {
-      // console.log('selectedPair ', this.selectedPair)
-    },
-
     farmSelected() {
-      // console.log(this.farmSelected)
+      console.log(this.farmSelected, this.farms)
+
+      let farmMatch = this.farms.filter(i => i.value === this.farmSelected)
+      if (farmMatch && farmMatch.length) {
+        let lps = pairs.filter(
+          (pair) =>
+            farmMatch[0].text === pair.label ||
+            farmMatch[0].text === pair.re_label
+        );
+
+        if (lps.length) {
+          this.lpName = lps[0].label
+          this.getLPBalance(lps[0].value);
+        }
+      }
+      
       // this.getLPBalance(this.farmSelected);
     },
   },
@@ -275,19 +287,15 @@ export default {
     },
 
     showModal() {
-      this.modalShow = !this.modalShow;
+      this.modalShow = true;
       // this.getLPBalance();
     },
 
-    // async getLPBalance(farmToken = null) {
-    //   let pair = farmToken || this.selectedPair;
-
-    //   console.log(pair)
-
-    //   [this.farmBalance] = await Promise.all([
-    //     getBalance(await signer.getAddress(), pair),
-    //   ]);
-    // },
+    async getLPBalance(lpToken) {
+      [this.lpBalance] = await Promise.all([
+        getBalance(await signer.getAddress(), lpToken),
+      ]);
+    },
   },
 };
 </script>
