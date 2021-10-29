@@ -1,11 +1,13 @@
 <template>
   <div>
-    <b-alert show>Your USDT balance is: {{ balance0 }}</b-alert>
-    <b-alert show>Your DAI balance is: {{ balance1 }}</b-alert>
-    <b-alert show>Your WETH balance is: {{ balance2 }}</b-alert>
-    <b-alert show>Your WMATIC balance is: {{ balance3 }}</b-alert>
-    <b-alert show>Your ATOM balance is: {{ balance4 }}</b-alert>
-    <b-alert show>Your USDT-DAI LP is: {{ pair01LP }}</b-alert>
+    <b-alert show>USDT balance is: {{ balance0 }}</b-alert>
+    <b-alert show>DAI balance is: {{ balance1 }}</b-alert>
+    <b-alert show>WETH balance is: {{ balance2 }}</b-alert>
+    <b-alert show>WMATIC balance is: {{ balance3 }}</b-alert>
+    <b-alert show>ATOM balance is: {{ balance4 }}</b-alert>
+    <br>
+    <b-alert show variant="success">USDT-DAI LP is: {{ pair01LP }}</b-alert>
+    <b-alert show variant="success">Farming Pool LP: {{ farmingPoolLP }}</b-alert>
   </div>
 </template>
 
@@ -37,6 +39,7 @@ export default {
         this.balance3,
         this.balance4,
         this.pair01LP,
+        this.farmingPoolLP,
       ] = await Promise.all([
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN0),
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN1),
@@ -44,6 +47,7 @@ export default {
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN3),
         getBalance(await signer.getAddress(), process.env.VUE_APP_TOKEN4),
         getBalance(await signer.getAddress(), process.env.VUE_APP_PAIR01),
+        getBalance(await signer.getAddress(), process.env.VUE_APP_FARMING_POOL01),
       ]);
       console.log("\x1b[36m%s\x1b[0m", "this.pair01LP", this.pair01LP);
     };
