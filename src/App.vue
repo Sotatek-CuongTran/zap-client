@@ -57,7 +57,7 @@
                   <b-button @click="zap" style="margin-right: 20px"
                     >Zap</b-button
                   >
-                  <b-button @click="showModal">Select Farm</b-button>
+                  <!-- <b-button @click="showModal">Select Farm</b-button> -->
                 </b-col>
               </b-row>
             </b-tab>
@@ -87,7 +87,6 @@
     <div>
       <b-modal v-model="modalShow" @ok="farm">
         <!-- <p>USDT-DAI LP: {{ pair01LP }}</p> -->
-        <p v-if="farmSelected">{{ farmName }}: {{ farmBalance }}</p>
         <b-row>
           <b-col md="6">
             Amount
@@ -162,14 +161,6 @@ export default {
       farmBalance: 0,
       wishFarm: false,
     };
-  },
-  computed: {
-    farmName() {
-      if (!this.farmSelected) return
-
-      let farm = this.farms.filter(i => i.value === this.farmSelected)
-      return farm && farm.length ? farm[0].text : ''
-    }
   },
   watch: {
     selected() {
@@ -266,14 +257,14 @@ export default {
       // await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
       let allowance = await getAllowance(
         stakingRewardContract.address,
-        this.farmSelected
+        this.selectedPair
       );
       allowance = Number(ethers.utils.formatEther(allowance.toString()));
       console.log("allowance: ", allowance);
       if (allowance <= 0) {
         await approveTokenForSpender(
           stakingRewardContract.address,
-          this.farmSelected
+          this.selectedPair
         ); // fixed for pair01
       }
       await stakingRewardContract
@@ -288,15 +279,15 @@ export default {
       // this.getLPBalance();
     },
 
-    async getLPBalance(farmToken = null) {
-      let pair = farmToken || this.selectedPair;
+    // async getLPBalance(farmToken = null) {
+    //   let pair = farmToken || this.selectedPair;
 
-      console.log(pair)
+    //   console.log(pair)
 
-      [this.farmBalance] = await Promise.all([
-        getBalance(await signer.getAddress(), pair),
-      ]);
-    },
+    //   [this.farmBalance] = await Promise.all([
+    //     getBalance(await signer.getAddress(), pair),
+    //   ]);
+    // },
   },
 };
 </script>
