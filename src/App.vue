@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="padding: 50px 20%">
+  <div id="app" style="padding: 50px 10%">
     <b-row>
       <b-col md="8">
         <b-card no-body>
@@ -57,7 +57,7 @@
                   <b-button @click="zap" style="margin-right: 20px"
                     >Zap</b-button
                   >
-                  <!-- <b-button @click="showModal">Select Farm</b-button> -->
+                  <b-button @click="showModal">Select Farm</b-button>
                 </b-col>
               </b-row>
             </b-tab>
@@ -86,7 +86,7 @@
 
     <div>
       <b-modal v-model="modalShow" @ok="farm">
-        <p>USDT-DAI LP: {{ pair01LP }}</p>
+        <!-- <p>USDT-DAI LP: {{ pair01LP }}</p> -->
         <b-row>
           <b-col md="6">
             Amount
@@ -173,11 +173,10 @@ export default {
 
     farmSelected() {
       // console.log(this.farmSelected)
-      this.getLPBalance(this.farmSelected);
+      // this.getLPBalance(this.farmSelected);
     },
   },
   mounted() {
-    console.log("FARM ", FARM);
   },
   methods: {
     initLPPair(selectedToken) {
@@ -258,14 +257,14 @@ export default {
       // await approveTokenForSpender(stakingRewardContract.address, pairs[0]); // fixed for pair01
       let allowance = await getAllowance(
         stakingRewardContract.address,
-        this.selectedPair
+        this.farmSelected
       );
       allowance = Number(ethers.utils.formatEther(allowance.toString()));
       console.log("allowance: ", allowance);
       if (allowance <= 0) {
         await approveTokenForSpender(
           stakingRewardContract.address,
-          this.selectedPair
+          this.farmSelected
         ); // fixed for pair01
       }
       await stakingRewardContract
@@ -277,16 +276,18 @@ export default {
 
     showModal() {
       this.modalShow = !this.modalShow;
-      this.getLPBalance();
+      // this.getLPBalance();
     },
 
-    async getLPBalance(farmToken = null) {
-      let pair = farmToken || this.selectedPair;
+    // async getLPBalance(farmToken = null) {
+    //   let pair = farmToken || this.selectedPair;
 
-      [this.pair01LP] = await Promise.all([
-        getBalance(await signer.getAddress(), pair),
-      ]);
-    },
+    //   console.log(pair)
+
+    //   // [this.pair01LP] = await Promise.all([
+    //   //   getBalance(await signer.getAddress(), pair),
+    //   // ]);
+    // },
   },
 };
 </script>

@@ -1,10 +1,26 @@
 <template>
   <div>
-    <b-alert show>USDT balance is: {{ balance0 }}</b-alert>
-    <b-alert show>DAI balance is: {{ balance1 }}</b-alert>
-    <b-alert show>WETH balance is: {{ balance2 }}</b-alert>
-    <b-alert show>WMATIC balance is: {{ balance3 }}</b-alert>
-    <b-alert show>ATOM balance is: {{ balance4 }}</b-alert>
+    <b-alert show>
+
+      <p>USDT balance is: {{ balance0 }}</p>
+      <p>{{ tokenList[0].value }}</p>
+    </b-alert>
+    <b-alert show>
+      <p> DAI balance is: {{ balance1 }} </p>
+      <p>{{ tokenList[1].value }} </p>
+    </b-alert>
+    <b-alert show>
+      <p> WETH balance is: {{ balance2 }} </p>
+      <p>{{ tokenList[2].value }} </p>
+    </b-alert>
+    <b-alert show>
+      <p> WMATIC balance is: {{ balance3 }} </p>
+      <p>{{ tokenList[3].value }} </p>
+    </b-alert>
+    <b-alert show>
+      <p> ATOM balance is: {{ balance4 }} </p>
+      <p>{{ tokenList[4].value }} </p>
+    </b-alert>
     <br>
     <b-alert show variant="success">USDT-DAI LP is: {{ pair01LP }}</b-alert>
     <b-alert show variant="success">Farming Pool LP: {{ farmingPoolLP }}</b-alert>
@@ -13,7 +29,7 @@
 
 <script>
 import { getBalance, signer } from "../services/rpc-service.js";
-
+import { tokens } from '../services/const'
 
 export default {
   name: "Balance",
@@ -26,6 +42,7 @@ export default {
       balance4: 0,
       farmingPoolLP: 0,
       pair01LP: 0,
+      tokenList: tokens,
     };
   },
   mounted() {
@@ -67,5 +84,9 @@ li {
 }
 a {
   color: #42b983;
+}
+
+p {
+  margin-bottom: 0%;
 }
 </style>
